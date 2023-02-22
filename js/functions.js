@@ -4,29 +4,16 @@ isLessOrEqual('проверяемая строка', 20);
 
 
 const isPalindrom = (string) => {
-  const tempString = string
-    .toLowerCase()
-    .replaceAll(' ', '');
-  let reverseString = '';
-  for (let i = tempString.length - 1; i >= 0; i--) {
-    reverseString += tempString.at(i);
-  }
-  return tempString === reverseString;
+  const tempString = string.toLowerCase().replaceAll(' ', '');
+  const reversedString = tempString.split('').reverse().join('');
+  return tempString === reversedString;
 };
 
 isPalindrom('Кекс');
 
 
 const extractNumber = (string) => {
-  if (typeof string === 'number') {
-    return string;
-  }
-  let result = '';
-  for (let i = 0; i < string.length; i++) {
-    if (!Number.isNaN(parseInt(string.at(i), 10))) {
-      result += string.at(i);
-    }
-  }
+  const result = String(string).replace(/[^0-9]/g, '');
   return parseInt(result, 10);
 };
 
