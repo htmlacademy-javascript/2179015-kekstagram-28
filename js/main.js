@@ -76,14 +76,14 @@ const createMessage = () =>
 
 const createComment = () => ({
   id: generateCommentId(),
-  avatar: 'img/avatar-${getRandomInteger(1, AVATAR_COUNT)}.svg',
+  avatar: `img/avatar-${getRandomInteger(1, AVATAR_COUNT)}.svg`,
   massage: createMessage(),
   name: getRandomArrayElement(NAMES),
 });
 
 const createPicture = (index) => ({
   id: index,
-  url: 'photos/${index}.jpg',
+  url: `photos/${index}.jpg`,
   descriptionr: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomInteger(LIKE_MIN_COUNT, LIKE_MAX_COUNT),
   comments: Array.from(
