@@ -1,18 +1,32 @@
+import { isEscapeKey } from './util.js';
+
 const userModalElement = document.querySelector('.big-picture');
 const userModalOpenElement = document.querySelector('.pictures');
 const userModalCloseElement = userModalElement.querySelector('.big-picture__cancel');
 
-userModalOpenElement.addEventListener('click', () => {
+const onDocumentKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeUserModal();
+  }
+};
+
+function openUserModal () {
   userModalElement.classList.remove('hidden');
+  document.addEventListener('keydown', onDocumentKeydown);
+}
+
+function closeUserModal () {
+  userModalElement.classList.add('hidden');
+  document.removeEventListener('keydown', onDocumentKeydown);
+}
+
+userModalOpenElement.addEventListener('click', () => {
+  openUserModal();
 });
 
 userModalCloseElement.addEventListener('click', () => {
-  userModalElement.classList.add('hidden');
+  closeUserModal();
 });
 
-document.addEventListener('keydown', (evt) => {
-  if (evt.key === 'Escape') {
-    evt.preventDefault();
-    userModalElement.classList.add('hidden');
-  }
-});
+
