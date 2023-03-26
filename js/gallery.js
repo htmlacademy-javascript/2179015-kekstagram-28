@@ -1,8 +1,11 @@
 import { isEscapeKey } from './util.js';
+import { data } from './data.js';
+import { createBigPicture } from './big-picture.js';
 
-const userModalElement = document.querySelector('.big-picture');
-const userModalOpenElement = document.querySelector('.pictures');
-const userModalCloseElement = userModalElement.querySelector('.big-picture__cancel');
+const bigPhoto = document.querySelector('.big-picture');
+const picturesContainer = document.querySelector('.pictures');
+const bigPictureCloseBtn = bigPhoto.querySelector('.big-picture__cancel');
+const bodyContainer = document.querySelector('body');
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -12,21 +15,29 @@ const onDocumentKeydown = (evt) => {
 };
 
 function openUserModal () {
-  userModalElement.classList.remove('hidden');
+  bigPhoto.classList.remove('hidden');
   document.addEventListener('keydown', onDocumentKeydown);
+  bodyContainer.classList.add('modal-open');
 }
 
 function closeUserModal () {
-  userModalElement.classList.add('hidden');
+  bigPhoto.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
+  bodyContainer.classList.remove('modal-open');
 }
 
-userModalOpenElement.addEventListener('click', () => {
+const onPicturesContainerClick = (evt) => {
+  const id = evt.target.parentNode.dataset.thumbnailId;
+  const pictureData = data.find((thumbnail) => thumbnail.id === Number(id));
+
+  createBigPicture(pictureData);
   openUserModal();
-});
+};
 
-userModalCloseElement.addEventListener('click', () => {
+const closeBigPhoto = () => {
   closeUserModal();
-});
+};
 
+picturesContainer.addEventListener('click', onPicturesContainerClick);
+bigPictureCloseBtn.addEventListener('click', closeBigPhoto);
 
