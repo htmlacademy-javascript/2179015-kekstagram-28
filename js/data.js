@@ -71,7 +71,7 @@ export const comment = Array.from(
 const createPicture = (index) => ({
   id: index,
   url: `photos/${index}.jpg`,
-  descriptionr: getRandomArrayElement(DESCRIPTIONS),
+  description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomInteger(LIKE_MIN_COUNT, LIKE_MAX_COUNT),
   comments: comment,
 });
