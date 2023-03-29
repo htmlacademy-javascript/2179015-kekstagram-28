@@ -59,19 +59,21 @@ const createMessage = () =>
 const createComment = () => ({
   id: generateCommentId(),
   avatar: `img/avatar-${getRandomInteger(1, AVATAR_COUNT)}.svg`,
-  massage: createMessage(),
+  message: createMessage(),
   name: getRandomArrayElement(NAMES),
 });
+
+export const comment = Array.from(
+  { length: getRandomInteger(0, COMMENT_COUNT) },
+  createComment
+);
 
 const createPicture = (index) => ({
   id: index,
   url: `photos/${index}.jpg`,
-  descriptionr: getRandomArrayElement(DESCRIPTIONS),
+  description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomInteger(LIKE_MIN_COUNT, LIKE_MAX_COUNT),
-  comments: Array.from(
-    { length: getRandomInteger(0, COMMENT_COUNT) },
-    createComment
-  ),
+  comments: comment,
 });
 
 const getPictures = () =>
@@ -79,4 +81,7 @@ const getPictures = () =>
     createPicture(pictureIndex + 1)
   );
 
-export { getPictures };
+const data = getPictures(25);
+
+
+export { data };
