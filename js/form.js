@@ -2,12 +2,13 @@ import { isEscapeKey } from './util.js';
 
 const MAX_HASHTAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-za-яё0-9]{1,19}$/i;
-const TAG_ERROR_TEXT = 'Неправильно заполнены хэштеги';
+const TAG_ERROR_TEXT = 'Хэш-тег должен начинаеться с символа # и не может содержать пробелы, $, %, &. Максимальная длина хэш-тега 20 символов. Нельзя указывать более 5 хэш-тегов. Хэш-тег не должен повторяться';
+
 const overlay = document.querySelector('.img-upload__overlay');
 const form = document.querySelector('.img-upload__form');
 const bodyContainer = document.querySelector('body');
-const hashtagField = document.querySelector('text__hashtags');
-//const commentField = document.querySelector('text__description');
+const hashtagField = document.querySelector('.text__hashtags');
+const commentField = document.querySelector('.text__description');
 const fileField = document.querySelector('#upload-file');
 const cancelForm = document.querySelector('#upload-cancel');
 
@@ -23,7 +24,6 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-/*
 commentField.addEventListener('focus', () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 });
@@ -39,7 +39,6 @@ hashtagField.addEventListener('focus', () => {
 hashtagField.addEventListener('blur', () => {
   document.addEventListener('keydown', onDocumentKeydown);
 });
-*/
 
 const openUserModal = () => {
   overlay.classList.remove('hidden');
@@ -75,8 +74,7 @@ const hasUniqueTags = (tags) => {
 const validateTags = (value) => {
   const tags = value
     .trim()
-    .split('')
-    .filter((tag) => tag.trim().length);
+    .split(' ');
   return hasValidCount(tags) && hasUniqueTags(tags) && tags.every(isValidTag);
 };
 
