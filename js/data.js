@@ -4,7 +4,6 @@ const PICTURE_COUNT = 25;
 const AVATAR_COUNT = 6;
 const LIKE_MIN_COUNT = 15;
 const LIKE_MAX_COUNT = 200;
-const COMMENT_COUNT = 20;
 const COMMENT_LINES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -63,17 +62,15 @@ const createComment = () => ({
   name: getRandomArrayElement(NAMES),
 });
 
-export const comment = Array.from(
-  { length: getRandomInteger(0, COMMENT_COUNT) },
-  createComment
-);
+const comments = (randomNum) =>
+  Array.from({ length: randomNum }, createComment);
 
 const createPicture = (index) => ({
   id: index,
   url: `photos/${index}.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomInteger(LIKE_MIN_COUNT, LIKE_MAX_COUNT),
-  comments: comment,
+  comments: comments(Math.floor(Math.random() * 20)),
 });
 
 const getPictures = () =>
@@ -82,6 +79,5 @@ const getPictures = () =>
   );
 
 const data = getPictures(25);
-
 
 export { data };

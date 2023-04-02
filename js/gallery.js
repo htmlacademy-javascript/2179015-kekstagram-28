@@ -33,6 +33,9 @@ function closeUserModal () {
 
 const onPicturesContainerClick = (evt) => {
   const id = evt.target.parentNode.dataset.thumbnailId;
+  if (!id) {
+    return;
+  }
   const pictureData = data.find((thumbnail) => thumbnail.id === Number(id));
 
   createBigPicture(pictureData);
