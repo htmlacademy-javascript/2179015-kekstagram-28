@@ -1,3 +1,5 @@
+import { resetEffects } from './effect.js';
+import { resetScale } from './scale.js';
 import { isEscapeKey } from './util.js';
 
 const MAX_HASHTAG_COUNT = 5;
@@ -48,6 +50,8 @@ const openUserModal = () => {
 
 function closeUserModal () {
   form.reset();
+  resetScale();
+  resetEffects();
   pristine.reset();
   overlay.classList.add('hidden');
   document.addEventListener('keydown', onDocumentKeydown);
