@@ -1,7 +1,12 @@
 import './gallery.js';
 import './form.js';
-import { data } from './data.js';
 import { renderThumbnails } from './thumbnail.js';
+import { getData } from './api.js';
+import { showAlert } from './util.js';
 
-renderThumbnails(data);
-
+try {
+  const data = await getData();
+  renderThumbnails(data);
+} catch (err) {
+  showAlert(err.message);
+}

@@ -49,3 +49,4 @@ const closeBigPhoto = () => {
 picturesContainer.addEventListener('click', onPicturesContainerClick);
 bigPictureCloseBtn.addEventListener('click', closeBigPhoto);
 
+export { onPicturesContainerClick };
