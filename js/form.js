@@ -13,6 +13,8 @@ const hashtagField = document.querySelector('.text__hashtags');
 const commentField = document.querySelector('.text__description');
 const fileField = document.querySelector('#upload-file');
 const cancelForm = document.querySelector('#upload-cancel');
+const uploadSubmitElement = document.querySelector('.img-upload__submit');
+const elementDescription = form.querySelector('.text__description');
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -76,9 +78,11 @@ const hasUniqueTags = (tags) => {
 };
 
 const validateTags = (value) => {
-  const tags = value
-    .trim()
-    .split(' ');
+  if (!value) {
+    return true;
+  }
+  const tags = value.trim().split(' ');
+
   return hasValidCount(tags) && hasUniqueTags(tags) && tags.every(isValidTag);
 };
 
@@ -93,7 +97,31 @@ const onFormSubmit = (evt) => {
   pristine.validate();
 };
 
+const blockSubmitButton = () => {
+  uploadSubmitElement.disabled = true;
+  elementDescription.readOnly = true;
+};
+
+const unblockSubmitButton = () => {
+  uploadSubmitElement.disabled = false;
+  elementDescription.readOnly = false;
+};
+
+const setOnFormSubmit = (cb) => {
+  form.addEventListener('submit', async (evt) => {
+    evt.preventDefault();
+    const isVlid = pristine.validate();
+
+    if (isVlid) {
+      blockSubmitButton();
+      await cb(new FormData(form));
+      unblockSubmitButton();
+    }
+  });
+};
+
 fileField.addEventListener('change', onFileInputChange);
 cancelForm.addEventListener('click', closeForm);
 form.addEventListener('submit', onFormSubmit);
 
+export { setOnFormSubmit, closeForm, onDocumentKeydown };
