@@ -110,9 +110,9 @@ const unblockSubmitButton = () => {
 const setOnFormSubmit = (cb) => {
   form.addEventListener('submit', async (evt) => {
     evt.preventDefault();
-    const isVlid = pristine.validate();
+    const isValid = pristine.validate();
 
-    if (isVlid) {
+    if (isValid) {
       blockSubmitButton();
       await cb(new FormData(form));
       unblockSubmitButton();
