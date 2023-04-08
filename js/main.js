@@ -2,9 +2,10 @@ import './form.js';
 import { bindThumbnailsListeners } from './gallery.js';
 import { renderThumbnails } from './thumbnail.js';
 import { getData, sendData } from './api.js';
-import { showAlert } from './util.js';
+import { debounce, showAlert } from './util.js';
 import { setOnFormSubmit, closeForm } from './form.js';
 import { showSuccesMessage, showErrowMessage } from './messages.js';
+import { init, getFilteredPictures } from './filter.js';
 
 setOnFormSubmit(async (data) => {
   try {
@@ -18,8 +19,10 @@ setOnFormSubmit(async (data) => {
 
 try {
   const data = await getData();
-  renderThumbnails(data);
-  bindThumbnailsListeners(data);
+  const debounceRenderGallery = debounce(renderThumbnails);
+  init(data, debounceRenderGallery);
+  renderThumbnails(getFilteredPictures());
+  bindThumbnailsListeners(getFilteredPictures());
 } catch (err) {
   showAlert(err.message);
 }

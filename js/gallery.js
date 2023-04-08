@@ -1,5 +1,4 @@
 import { isEscapeKey } from './util.js';
-//import { data } from './data.js';
 import { createBigPicture } from './big-picture.js';
 
 const bigPhoto = document.querySelector('.big-picture');
