@@ -6,6 +6,7 @@ import { debounce, showAlert } from './util.js';
 import { setOnFormSubmit, closeForm } from './form.js';
 import { showSuccesMessage, showErrowMessage } from './messages.js';
 import { init, getFilteredPictures } from './filter.js';
+import './uploading-photo.js';
 
 setOnFormSubmit(async (data) => {
   try {
