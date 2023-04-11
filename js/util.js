@@ -13,7 +13,7 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-const debounce = (callback, timeoutDelay) => {
+const debounce = (callback, timeoutDelay = 500) => {
   let timeoutId;
   return (...rest) => {
     clearTimeout(timeoutId);
