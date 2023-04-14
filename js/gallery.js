@@ -13,17 +13,16 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-function openUserModal () {
+const openUserModal = () => {
   bigPhoto.classList.remove('hidden');
   document.addEventListener('keydown', onDocumentKeydown);
   bodyContainer.classList.add('modal-open');
-}
+};
 
 function closeUserModal () {
   bigPhoto.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
   bodyContainer.classList.remove('modal-open');
-
 }
 
 const onPicturesContainerClick = (evt, data) => {
@@ -41,12 +40,12 @@ const closeBigPhoto = () => {
   closeUserModal();
 };
 
-function bindThumbnailsListeners(data) {
+const bindThumbnailsListeners = (data) => {
   picturesContainer.addEventListener('click', (evt) =>
     onPicturesContainerClick(evt, data)
   );
 
   bigPictureCloseBtn.addEventListener('click', closeBigPhoto);
-}
+};
 
 export { bindThumbnailsListeners };

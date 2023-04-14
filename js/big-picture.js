@@ -1,10 +1,10 @@
+const COMMENTS_PER_PORTION = 5;
+
 const bigPicture = document.querySelector('.big-picture');
 const commentsContainer = bigPicture.querySelector('.social__comments');
 const commentTemplate = commentsContainer.querySelector('.social__comment');
 const commentCount = document.querySelector('.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
-
-const COMMENTS_PER_PORTION = 5;
 
 const createComment = ({ avatar, name, message }) => {
   const commentItem = commentTemplate.cloneNode(true);
