@@ -1,57 +1,63 @@
 import { isEscapeKey } from './util.js';
-import { onDocumentKeydown } from './form.js';
 
-const successMessageElement = document.querySelector('#success').content.querySelector('.success');
-const successButton = document.querySelector('#success').content.querySelector('.success__button');
-const errorMessageElement = document.querySelector('#error').content.querySelector('.error');
-const errorButton = document.querySelector('#error').content.querySelector('.error__button');
-const bodyElement = document.querySelector('body');
-
-const onErrorClickEsc = (evt) => {
-  if(isEscapeKey(evt)) {
-    evt.preventDefault();
-    onWindowWarningClose();
-  }
+const MessageTypes = {
+  SUCCESS: 'success',
+  ERROR: 'error'
 };
 
-function onWindowWarningClose () {
-  const successSectionElement = document.querySelector('.success');
-  const errorSectionElement = document.querySelector('.error');
+const documentBody = document.querySelector('body');
 
-  if (successSectionElement) {
-    successSectionElement.remove();
-  }
+const successMessageTamplate = document.querySelector('#success')
+  .content
+  .querySelector('.success');
 
-  if (errorSectionElement) {
-    errorSectionElement.remove();
+const errorMessageTamplate = document.querySelector('#error')
+  .content
+  .querySelector('.error');
+let newMessageTamplate = {};
+let messageElement = {};
+let messageCloseElement = {};
+
+const closeMessage = () => {
+  messageElement.remove();
+  messageCloseElement.removeEventListener('click', onMessageCloseElementClick);
+  document.removeEventListener('keydown', onDocumentKeydown);
+  document.removeEventListener('click', onFreeAreaClick);
+};
+
+function onDocumentKeydown(evt) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeMessage();
   }
-  document.addEventListener('keydown', onDocumentKeydown);
 }
 
-const onAreaWindowClose = (evt) => {
-  if (evt.target.closest('section')) {
-    onWindowWarningClose();
+function onMessageCloseElementClick() {
+  closeMessage();
+}
+
+function onFreeAreaClick(evt) {
+  if (!evt.target.closest('.success__inner') && !evt.target.closest('.error__inner')) {
+    closeMessage();
   }
+}
+
+const showMessage = (message) => {
+  switch(message) {
+    case MessageTypes.SUCCESS:
+      newMessageTamplate = successMessageTamplate;
+      break;
+    case MessageTypes.ERROR:
+      newMessageTamplate = errorMessageTamplate;
+      break;
+  }
+  documentBody.appendChild(newMessageTamplate.cloneNode(true));
+  messageElement = documentBody.querySelector(`.${ message }`);
+  messageCloseElement = documentBody.querySelector(`.${ message }__button`);
+
+  messageCloseElement.addEventListener('click', onMessageCloseElementClick);
+  document.addEventListener('keydown', onDocumentKeydown);
+  document.addEventListener('click', onFreeAreaClick);
 };
 
-
-const showSuccesMessage = () => {
-  const elementSuccessMessage = successMessageElement.cloneNode(true);
-  document.addEventListener('keydown', onErrorClickEsc);
-  document.addEventListener('click', onAreaWindowClose);
-  successButton.addEventListener('click', onWindowWarningClose);
-  bodyElement.append(elementSuccessMessage);
-  bodyElement.style.overflow = 'hidden';
-};
-
-const showErrowMessage = () => {
-  const elementErrorMessage = errorMessageElement.cloneNode(true);
-  document.addEventListener('keydown', onWindowWarningClose);
-  document.addEventListener('click', onAreaWindowClose);
-  errorButton.addEventListener('click', onDocumentKeydown);
-  bodyElement.append(elementErrorMessage);
-  bodyElement.style.overflow = 'hidden';
-  document.removeEventListener('keydown', onDocumentKeydown);
-};
-
-export { showSuccesMessage, showErrowMessage };
+export { showMessage };
